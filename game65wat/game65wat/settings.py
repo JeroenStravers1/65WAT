@@ -25,12 +25,13 @@ SECRET_KEY = '(&73hzg2(bzezj*zk36m+ke)p@&wqz8gu0y#lyd)phm_ps80@k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False#True
 
-ALLOWED_HOSTS = ["145.24.222.81", "www.65watgame.com"]
+ALLOWED_HOSTS = ["145.24.222.81"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'code65wat.apps.Code65WatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
