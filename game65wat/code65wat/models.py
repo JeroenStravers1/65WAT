@@ -1,4 +1,5 @@
 from django.db import models
+import django.utils.timezone
 import datetime
 
 class RegisteredUser(models.Model):
@@ -8,9 +9,9 @@ class RegisteredUser(models.Model):
     resource_x = models.IntegerField(default=100)
     resource_y = models.IntegerField(default=100)
     resource_z = models.IntegerField(default=100)
-    attack_countdown = models.DateTimeField(default=datetime.datetime.now())
-    upgrade_countdown = models.DateTimeField(default=datetime.datetime.now())
+    attack_countdown = models.DateTimeField(default=django.utils.timezone.now())
+    upgrade_countdown = models.DateTimeField(default=django.utils.timezone.now())
     messages = models.TextField(default="")
-    last_login = models.DateTimeField(default=datetime.datetime.now())
+    last_login = models.DateTimeField(default=django.utils.timezone.now())
 
 
