@@ -12,3 +12,5 @@ class RegisteredUser(models.Model):
     upgrade_countdown = models.DateTimeField(default=datetime.datetime.now())
     messages = models.TextField(default="")
     last_login = models.DateTimeField(default=datetime.datetime.now())
+
+
