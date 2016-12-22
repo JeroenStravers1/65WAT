@@ -1,18 +1,14 @@
 from django.db import models
-
+import datetime
 
 class RegisteredUser(models.Model):
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, primary_key=True)
     password = models.CharField(max_length=10)
-    upgrade_lvl = models.IntegerField
-    resource_x = models.IntegerField
-    resource_y = models.IntegerField
-    resource_z = models.IntegerField
-    attack_countdown = models.DateTimeField
-    upgrade_countdown = models.DateTimeField
-    messages = models.TextField #TODO migrate db
-    #TODO messages format: x.y.z.,
-    #TODO the message content can be randomly generated on display
-
-
-
+    upgrade_lvl = models.IntegerField(default=0)
+    resource_x = models.IntegerField(default=100)
+    resource_y = models.IntegerField(default=100)
+    resource_z = models.IntegerField(default=100)
+    attack_countdown = models.DateTimeField(default=datetime.datetime.now())
+    upgrade_countdown = models.DateTimeField(default=datetime.datetime.now())
+    messages = models.TextField(default="")
+    last_login = models.DateTimeField(default=datetime.datetime.now())

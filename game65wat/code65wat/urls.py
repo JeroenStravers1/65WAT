@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^logged_in', views.logged_in, name='logged_in'),
     url(r'^invalid', views.invalid, name='invalid'),
     url(r'^register', views.register, name='register'),
+    url(r'^checking', views.checking, name='checking'),
 ]
