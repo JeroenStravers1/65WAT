@@ -43,31 +43,20 @@ def invalid(request):
 
 @csrf_exempt
 def register(request):
-    print('bobobobob')
     return render_to_response('register.html')
 
 @csrf_exempt
 def checking(request):
-    print('whatevs')
     current_username = request.POST.get('username', '')
     current_password = request.POST.get('password', '')
     # check user exists in db
     try:
-        print('user already exists')
         existing_users_with_name = RegisteredUser.objects.get(username=current_username)
         return HttpResponseRedirect('/65wat/invalid/')
     except Exception:
-        print('making new user')
         new_user = RegisteredUser(
             username=current_username,
-            password=current_password,
-            upgrade_lvl=0,
-            resource_x=100,
-            resource_y=100,
-            resource_z=100,
-            attack_countdown=datetime.datetime.now(),
-            upgrade_countdown=datetime.datetime.now(),
-            messages=""
+            password=current_password
         )
         new_user.save()
         return HttpResponseRedirect('/65wat/login/')
