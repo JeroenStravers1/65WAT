@@ -1,4 +1,5 @@
-from django.shortcuts import render_to_response
+from django.db.backends import sqlite3
+from django.shortcuts import render_to_response, _get_queryset
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
@@ -35,7 +36,51 @@ def logout(request):
 
 @csrf_exempt
 def logged_in(request):
-    return HttpResponse("logged_in placeholder")
+    return render_to_response('logged_in.html')
+    #return HttpResponse("logged_in placeholder")
+
+@csrf_exempt
+def action(request):
+    current_attack = request.POST.get('attack', '')
+    current_upgrade = request.POST.get('upgrade', '')
+    if(current_attack == 'attack'):
+        current_action = current_attack
+    if(current_upgrade == 'upgrade'):
+        current_action = current_upgrade
+    if(current_attack != 'attack' and current_upgrade !='upgrade'):
+        current_action = "No action taken"
+   # if request.user.is_authenticated():
+   #     username = request.user.get_username()
+   # else:
+   #     username = "test"
+
+    current_user = get_object_or_404(RegisteredUser, pk= 'arjen')
+    current_user_attack_countdown = divmod(current_user.attack_countdown,3600)
+    current_time = divmod(datetime.datetime.now(),3600)
+    FMT = '%H:%M:%S'
+    test = current_time - current_user_attack_countdown
+
+    #if(current_user_attack_countdown > current_time):
+   #     test= "worked"
+    #else:
+     #  test = "not worked"
+
+
+
+    ###       test = elem
+    #conn = sqlite3.connect('db.sqlite.db')
+   # cursor = conn.cursor()
+
+   # current_user = RegisteredUser.get(username='arjen')
+   # user = current_user
+    #current_user_info = RegisteredUser.objects.get(username=current_user)
+
+
+    password = "test"
+    #print (current_action)
+    #check global action cooldown timer
+
+    return render_to_response('action.html',{'password':password,'action':current_action,'current_user':test})
 
 @csrf_exempt
 def invalid(request):
