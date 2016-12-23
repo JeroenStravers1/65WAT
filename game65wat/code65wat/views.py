@@ -1,3 +1,5 @@
+from random import randint
+
 from django.db.backends import sqlite3
 from django.shortcuts import render_to_response, _get_queryset
 from django.http import HttpResponseRedirect
@@ -43,37 +45,78 @@ def logged_in(request):
 def action(request):
     current_attack = request.POST.get('attack', '')
     current_upgrade = request.POST.get('upgrade', '')
-    if(current_attack == 'attack'):
-        current_action = current_attack
-    if(current_upgrade == 'upgrade'):
-        current_action = current_upgrade
-    if(current_attack != 'attack' and current_upgrade !='upgrade'):
-        current_action = "No action taken"
+
+    current_user = get_object_or_404(RegisteredUser, pk='arjen')
+    current_user_attack_countdown, remainder = divmod(current_user.attack_countdown, 3600)
+    current_time, remainder = divmod(datetime.datetime.now(), 3600)
+    FMT = '%H:%M:%S'
+    test = current_time - current_user_attack_countdown
+
+    time = 2
+    if (time > 1):
+        if(current_attack == 'attack'):
+            all_users = _get_queryset(RegisteredUser)
+            selected_number_user = randint(0, len(all_users))
+            selected_user = all_users[selected_number_user]
+            selected_user_resource_x = selected_user.resource_x
+            selected_stolen_resource_x = randint(0, len(selected_user_resource_x))
+            remainder_resource_x = selected_user_resource_x - selected_stolen_resource_x
+            selected_user.resource_x = remainder_resource_x
+
+            selected_user_resource_y = selected_user.resource_y
+            selected_stolen_resource_y = randint(0, len(selected_user_resource_y))
+            remainder_resource_y = selected_user_resource_y - selected_stolen_resource_y
+            selected_user.resource_y = remainder_resource_y
+
+            selected_user_resource_z = selected_user.resource_z
+            selected_stolen_resource_z = randint(0, len(selected_user_resource_z))
+            remainder_resource_z = selected_user_resource_z - selected_stolen_resource_z
+            selected_user.resource_z = remainder_resource_z
+
+            selected_user.save()
+
+            current_resource_x = current_user.resource_x
+            current_user.resource_x = current_resource_x + selected_stolen_resource_x
+
+            current_resource_y = current_user.resource_y
+            current_user.resource_y = current_resource_y + selected_stolen_resource_y
+
+            current_resource_z = current_user.resource_z
+            current_user.resource_z = current_resource_z + selected_stolen_resource_z
+
+            current_user.save()
+            current_action = current_attack
+        if(current_upgrade == 'upgrade'):
+            current_user_upgrade_lvl = current_user.upgrade_lvl
+
+            current_resource_x = current_user.resource_x
+            current_user.resource_x = current_resource_x * current_user_upgrade_lvl + 10
+
+            current_resource_y = current_user.resource_y
+            current_user.resource_y = current_resource_y * current_user_upgrade_lvl + 10
+
+            current_resource_z = current_user.resource_z
+            current_user.resource_z = current_resource_z * current_user_upgrade_lvl + 10
+
+            current_user.upgrade_lvl = current_user_upgrade_lvl + 1
+
+            current_user.save()
+
+
+            current_action = current_upgrade
+
+        if(current_attack != 'attack' and current_upgrade !='upgrade'):
+            current_action = "No action taken"
+            
    # if request.user.is_authenticated():
    #     username = request.user.get_username()
    # else:
    #     username = "test"
 
-    current_user = get_object_or_404(RegisteredUser, pk= 'arjen')
-    current_user_attack_countdown = divmod(current_user.attack_countdown,3600)
-    current_time = divmod(datetime.datetime.now(),3600)
-    FMT = '%H:%M:%S'
-    test = current_time - current_user_attack_countdown
+
 
     #if(current_user_attack_countdown > current_time):
-   #     test= "worked"
-    #else:
-     #  test = "not worked"
 
-
-
-    ###       test = elem
-    #conn = sqlite3.connect('db.sqlite.db')
-   # cursor = conn.cursor()
-
-   # current_user = RegisteredUser.get(username='arjen')
-   # user = current_user
-    #current_user_info = RegisteredUser.objects.get(username=current_user)
 
 
     password = "test"
